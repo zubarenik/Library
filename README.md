@@ -1,3 +1,3 @@
 # Library
 
-Final project of the ProgWeb course
+Final project for the ProgWeb course
