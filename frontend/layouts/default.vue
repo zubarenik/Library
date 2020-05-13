@@ -50,6 +50,7 @@
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <router-link class="login" :to="linkAddress" @click.native="logout()">{{ linkTitle }}</router-link>
     </v-app-bar>
     <v-content>
       <v-container>
@@ -82,18 +83,48 @@ export default {
           icon: 'mdi-view-agenda',
           title: 'Posts',
           to: '/posts'
-        },
-        {
-          icon: 'mdi-account',
-          title: 'Admin',
-          to: '/admin'
-        },
+        }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Library'
+      title: 'Library',
+      linkAddress: '/',
+      linkTitle: 'Войти в учетную запись',
     }
-  }
+  },
+  watch: {
+    '$nuxt.$store.state.apiToken'(){
+      if (this.linkAddress == '/') {
+        this.linkAddress = '/home'
+        this.linkTitle = 'Выйти'
+        this.items.push({
+          icon: 'mdi-account',
+          title: 'Admin',
+          to: '/admin'
+        })  
+      } else {    
+        this.linkAddress = '/'
+        this.linkTitle = 'Войти в учетную запись'
+        this.items.pop()
+      }
+    }
+  },
+  methods: {
+    logout(){
+      if (this.linkAddress == '/home') 
+        this.$store.dispatch('deleteToken')
+    }
+  },
 }
 </script>
+
+<style>
+  a.login{
+    color: #e43f5a;
+    text-decoration: none;
+  }
+  a.login:hover{
+    font-weight: bold;
+  }
+</style>
