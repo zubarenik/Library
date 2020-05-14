@@ -1,7 +1,14 @@
 <template>
-  <div class="container-books">
-    <post v-for="post in posts" :key="post.id" :title="post.title" :body="post.body"></post>
+<div>
+  <h4 class="posts-title">Всего {{ length }} постов</h4>
+  <div class="container-posts">
+    <post v-for="post in posts" 
+          :key="post.id" 
+          :title="post.title" 
+          :body="post.body">
+    </post>
   </div>
+</div>
 </template>
 
 
@@ -9,29 +16,26 @@
 import Post from "~/components/Post.vue";
 
 export default {
-  data() {
-    return {
-      posts: [],
-    }
-  },
   components: {
     Post,
   },
-  methods: {
-    getPosts(){
-      this.$axios.get("http://jsonplaceholder.typicode.com/posts").then(response => {
-        this.posts = response.data;
-      });
+  computed: {
+    posts(){
+      return this.$store.getters['posts']
+    },
+    length(){
+      return this.$store.getters['postsLength']
     }
-  },
-  mounted() {
-    this.getPosts()
   },
 };
 </script>
 
 <style>
-.container-books {
+.posts-title {
+  display: flex;
+  justify-content: center;
+}
+.container-posts {
   margin: 50px auto;
   min-height: 100vh;
   display: flex;

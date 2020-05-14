@@ -50,7 +50,7 @@
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <router-link class="login" :to="linkAddress" @click.native="logout()">{{ linkTitle }}</router-link>
+      <nuxt-link class="login" :to="linkAddress" @click.native="logout()">{{ linkTitle }}</nuxt-link>
     </v-app-bar>
     <v-content>
       <v-container>
@@ -83,6 +83,11 @@ export default {
           icon: 'mdi-view-agenda',
           title: 'Posts',
           to: '/posts'
+        },
+        {
+          icon: 'mdi-border-color',
+          title: 'Add post',
+          to: '/add-post'
         }
       ],
       miniVariant: false,
@@ -90,7 +95,7 @@ export default {
       rightDrawer: false,
       title: 'Library',
       linkAddress: '/',
-      linkTitle: 'Войти в учетную запись',
+      linkTitle: 'Войти в учетную запись admin',
     }
   },
   watch: {
@@ -99,13 +104,13 @@ export default {
         this.linkAddress = '/home'
         this.linkTitle = 'Выйти'
         this.items.push({
-          icon: 'mdi-account',
+          icon: 'mdi-account-tie',
           title: 'Admin',
           to: '/admin'
         })  
       } else {    
         this.linkAddress = '/'
-        this.linkTitle = 'Войти в учетную запись'
+        this.linkTitle = 'Войти в учетную запись admin'
         this.items.pop()
       }
     }

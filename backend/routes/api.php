@@ -22,6 +22,8 @@ Route::post('/get_token', function (Request $request) {
     }
     
     $token = $user->createToken($request->device_name)->plainTextToken;
+    //$user->remember_token = $token;
+
     return $token;
 });
 

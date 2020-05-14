@@ -10,7 +10,7 @@
                 <input type="password" v-model="password" class="form-control" placeholder="Password" required="required">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block" @click="login()">Log in</button>
+                <button class="btn btn-primary btn-block" @click="login()">Log in</button>
             </div>      
         </div>
     </div>
