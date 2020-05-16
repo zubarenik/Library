@@ -5,18 +5,18 @@ Vue.use(Vuex)
  
 const store = () => new Vuex.Store({
     state: {
-        apiToken: '',
+        user: null,
         posts: [],
     },
     getters: {
-        apiToken(state) {
-            return state.apiToken
-        },
         posts(state) {
             return state.posts
         },
         postsLength(state) {
             return state.posts.length
+        },
+        user(state) {
+            return state.user
         }
     },
     mutations: {
@@ -28,16 +28,34 @@ const store = () => new Vuex.Store({
             curPosts.push(post)
             state.posts = curPosts
         },
-        setToken(state, token) {
-            state.apiToken = token
-        },
-        deleteToken(state) {
-            state.apiToken = ''
+        setUser(state, user) {
+            state.user = user
         }
     },
     actions: {
-        nuxtServerInit(context) {
-            return context.dispatch('loadPosts');
+        async nuxtServerInit(context) {
+            const token = this.$cookies.get(cookieName) || null
+            if (token) {
+                this.$axios.setToken(token, 'Bearer')
+                await context.dispatch('fetchUser')
+            }
+            //await context.dispatch('loadPosts');
+        },
+        async fetchUser(context) {
+            const response = await this.$axios.get('/api/user')
+            context.commit('setUser', response.data)
+        },
+        async login(context, tokenData) {
+            try {
+                const response = await this.$axios.post('/api/get_token', tokenData)
+                const token = response.data
+                this.$cookies.set('auth', token, {
+                    path: '/',
+                    maxAge: 60*60*24*7,
+                })
+            } catch(user) {
+                // TODO
+            }
         },
         loadPosts(context) {
             return this.$axios.get('http://jsonplaceholder.typicode.com/posts').then(response => {
@@ -46,12 +64,6 @@ const store = () => new Vuex.Store({
         },
         addPost(context, post) {
             context.commit('addPost', post)
-        },
-        setToken(context, token) {
-            context.commit('setToken', token)
-        },
-        deleteToken(context) {
-            context.commit('deleteToken')
         }
     }
 })

@@ -1,6 +1,5 @@
 <template>
     <div class="login-form">
-        <h3>Get access to edit library!</h3>
         <div class="form">
             <h2 class="text-center">Log in</h2>       
             <div class="form-group">
@@ -18,6 +17,7 @@
 
 <script>
 export default {
+    middleware: 'auth',
     data() {
         return {
             email: '',
@@ -26,14 +26,13 @@ export default {
     },
     methods: {
         login() {
-            this.$axios.post('/api/get_token', {
+            let tokenData = {
                 email: this.email,
                 password: this.password,
-                device_name: "web"
-            }).then(response => {   
-                this.$store.dispatch('setToken', response.data)
-                this.$nuxt.$router.push('/admin')
-            })
+                device_name: 'web'
+            }
+            this.$store.dispatch('login', tokenData)  
+            // this.$nuxt.$router.push('/admin')
         }
     },
     mounted() {
