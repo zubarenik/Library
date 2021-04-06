@@ -33,14 +33,14 @@ const store = () => new Vuex.Store({
         }
     },
     actions: {
-        async nuxtServerInit(context) {
+        /*async nuxtServerInit(context) {
             const token = this.$cookies.get(cookieName) || null
             if (token) {
                 this.$axios.setToken(token, 'Bearer')
                 await context.dispatch('fetchUser')
             }
             //await context.dispatch('loadPosts');
-        },
+        }, */
         async fetchUser(context) {
             const response = await this.$axios.get('/api/user')
             context.commit('setUser', response.data)

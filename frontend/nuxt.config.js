@@ -60,7 +60,7 @@ export default {
   axios: {
   },
 
-  proxy: [myenv.PROXY_API_URL],
+  //proxy: [myenv.PROXY_API_URL],
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module
